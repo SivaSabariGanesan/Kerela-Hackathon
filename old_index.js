@@ -193,16 +193,8 @@ app.get('/api/orders/:id', async (req, res) => {
   }
 
   try {
-    // Log the session and order ID to verify they are as expected
-    console.log('User ID from session:', req.session.userId);
-    console.log('Order ID from request params:', req.params.id);
-
-    // Ensure the order ID is properly cast to an ObjectId
-    const orderId = new ObjectId(req.params.id);
-
-    // Find the order by ID and ensure it belongs to the current user
     const order = await Order.findOne({
-      _id: orderId,
+      _id: ObjectId(req.params.id),
       user: req.session.userId
     });
 
@@ -212,9 +204,8 @@ app.get('/api/orders/:id', async (req, res) => {
 
     res.json(order);
   } catch (error) {
-    console.error('Error fetching order:', error);
-    // Return the error stack in the response for debugging purposes
-    res.status(500).json({ message: 'Could not fetch order', error: error.message });
+    console.error('Fetch order error:', error);
+    res.status(500).json({ message: 'Could not fetch order' });
   }
 });
 

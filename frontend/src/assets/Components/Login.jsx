@@ -33,6 +33,16 @@ const Login = ({ setUser }) => {
     alert("Google login failed");
   };
 
+  const handleAdminLogin = () => {
+    const adminUser = {
+      name: "Admin User",
+      email: "admin@example.com",
+      picture: "https://via.placeholder.com/150"
+    };
+    setUser(adminUser);
+    navigate("/admin-dashboard"); // Navigate to dashboard after admin login
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-100 to-blue-200">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-xl shadow-2xl">
@@ -86,6 +96,14 @@ const Login = ({ setUser }) => {
             className="w-full py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
           >
             Guest Login
+          </button>
+
+          {/* Admin Login Button */}
+          <button 
+            onClick={handleAdminLogin}
+            className="w-full py-2 px-4 border border-transparent rounded-md text-sm font-medium text-white bg-emerald-700 hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-600"
+          >
+            Admin Login
           </button>
         </div>
 

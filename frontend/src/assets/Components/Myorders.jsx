@@ -74,21 +74,24 @@ const MyOrders = () => {
   const handleCancelOrder = async (orderId) => {
     try {
       const response = await fetch(`http://localhost:5000/api/orders/${orderId}/cancel`, {
-        method: 'PATCH', // Assuming 'PATCH' for canceling orders, depending on your API
+        method: 'PATCH',
         credentials: 'include',
       });
-
+  
       if (!response.ok) {
-        throw new Error('Failed to cancel the order');
+        // Log more details to understand what went wrong
+        const errorData = await response.json();
+        throw new Error(`Failed to cancel the order: ${errorData.message || 'Unknown error'}`);
       }
-
-      // Re-fetch orders after cancellation
+  
+      // Update orders list
       const updatedOrders = orders.filter((order) => order._id !== orderId);
       setOrders(updatedOrders);
     } catch (err) {
-      setError(err.message);
+      setError(`Error canceling order: ${err.message}`);
     }
   };
+  
 
   if (loading) {
     return (
